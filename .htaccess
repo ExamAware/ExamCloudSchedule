@@ -1,0 +1,3 @@
+<FilesMatch "\.enc$">
+    Deny from all
+</FilesMatch>
