@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $newConfig = [
         'examName' => $_POST['examName'],
         'message' => $_POST['message'],
-        'room' => ' ',
+        'room' => $_POST['room'],
         'examInfos' => []
     ];
     
@@ -135,6 +135,10 @@ if (!empty($id) && file_exists("../configs/{$id}.json")) {
             <div>
                 <label>考试提示语:</label>
                 <input type="text" name="message" value="<?= htmlspecialchars($config['message']) ?>">
+            </div>
+            <div>
+                <label>考场号:</label>
+                <input type="text" name="room" value="<?= htmlspecialchars($config['room'] ?? '') ?>" required>
             </div>
             
             <h3>考试科目安排</h3>
