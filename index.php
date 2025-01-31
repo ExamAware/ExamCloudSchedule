@@ -74,6 +74,7 @@ header('Content-Type: text/html; charset=utf-8');
             <label for="configId">输入配置ID：</label>
             <input type="text" id="configId" placeholder="例如：room301">
             <button onclick="loadConfig()">获取配置</button>
+            <button id="enterButton" style="display:none;" onclick="enterSchedule()">进入</button>
         </div>
         
         <div id="result"></div>
@@ -86,10 +87,12 @@ header('Content-Type: text/html; charset=utf-8');
     function loadConfig() {
         const configId = document.getElementById('configId').value.trim();
         const resultDiv = document.getElementById('result');
+        const enterButton = document.getElementById('enterButton');
         resultDiv.innerHTML = '加载中...';
         
         if(!configId) {
             resultDiv.innerHTML = '<span class="error">请输入配置ID</span>';
+            enterButton.style.display = 'none';
             return;
         }
 
@@ -102,10 +105,17 @@ header('Content-Type: text/html; charset=utf-8');
             })
             .then(data => {
                 resultDiv.innerHTML = `<pre>${syntaxHighlight(JSON.stringify(data, null, 4))}</pre>`;
+                enterButton.style.display = 'inline-block';
             })
             .catch(error => {
                 resultDiv.innerHTML = `<span class="error">错误：${error.error || '获取配置失败'}</span>`;
+                enterButton.style.display = 'none';
             });
+    }
+
+    function enterSchedule() {
+        const configId = document.getElementById('configId').value.trim();
+        window.location.href = `/ExamCloudSchedule/index.html?configId=${encodeURIComponent(configId)}`;
     }
 
     // JSON高亮显示
