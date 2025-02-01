@@ -89,6 +89,21 @@ header('Content-Type: text/html; charset=utf-8');
             border-radius: 4px;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
+        .dark-theme {
+            background: url('background-dark.jpg') no-repeat center center fixed !important;
+            background-size: cover !important;
+            color: #e0e0e0 !important;
+        }
+        .dark-theme .container {
+            background-color: rgba(50, 50, 50, 0.9) !important;
+        }
+        .dark-theme .theme-toggle {
+            background: #e0e0e0 !important;
+            color: #333 !important;
+        }
+        .dark-theme label {
+            color: #e0e0e0 !important;
+        }
     </style>
 </head>
 <body>
@@ -177,15 +192,19 @@ header('Content-Type: text/html; charset=utf-8');
     </script>
     <style>
         .dark-theme {
-            background: #333 !important;
+            background: url('background-dark.jpg') no-repeat center center fixed !important;
+            background-size: cover !important;
             color: #e0e0e0 !important;
         }
         .dark-theme .container {
-            background-color: rgba(255, 255, 255, 0.1) !important;
+            background-color: rgba(50, 50, 50, 0.9) !important;
         }
         .dark-theme .theme-toggle {
             background: #e0e0e0 !important;
             color: #333 !important;
+        }
+        .dark-theme label {
+            color: #e0e0e0 !important;
         }
     </style>
 </body>
