@@ -39,6 +39,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return fetch(`/get_config.php?id=${encodeURIComponent(configId)}`, { cache: "no-store" }) // 不保留缓存
             .then(response => response.json())
             .then(data => {
+                if (!room) {
+                    room = data.room;
+                    roomElem.textContent = room;
+                }
                 displayExamInfo(data);
                 updateCurrentTime();
                 updateExamInfo(data);
