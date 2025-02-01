@@ -5,7 +5,7 @@ body {
     background: url('../background.jpg') no-repeat center center fixed;
     background-size: cover;
     animation: fadeIn 1s;
-    color: #e0e0e0;
+    color: #000000;
     overflow: auto; /* 允许页面滚动 */
 }
 
@@ -26,9 +26,9 @@ body::-webkit-scrollbar {
     padding: 10px 20px;
     font-size: 1rem;
     cursor: pointer;
-    background-color: #1f1f1f;
-    color: #e0e0e0;
-    border: 1px solid #333;
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease, transform 0.3s ease;
@@ -42,9 +42,9 @@ body::-webkit-scrollbar {
     padding: 10px 20px;
     font-size: 1rem;
     cursor: pointer;
-    background-color: #1f1f1f;
-    color: #e0e0e0;
-    border: 1px solid #333;
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s ease, transform 0.3s ease;
@@ -52,12 +52,12 @@ body::-webkit-scrollbar {
 }
 
 #settings-btn:hover {
-    background-color: #333;
+    background-color: #f0f0f0;
     transform: scale(1.05);
 }
 
 #fullscreen-btn:hover {
-    background-color: #333;
+    background-color: #f0f0f0;
     transform: scale(1.05);
 }
 
@@ -65,7 +65,7 @@ body::-webkit-scrollbar {
     padding: 20px;
     max-width: 1400px; /* 增加主体部分宽度 */
     margin: auto;
-    background-color: rgba(31, 31, 31, 0.5); /* 使用rgba设置背景透明度 */
+    background-color: rgba(255, 255, 255, 0.5); /* 使用rgba设置背景透明度 */
     border-radius: 8px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
@@ -75,7 +75,7 @@ h1 {
     font-weight: bold;
     text-align: left;
     margin-bottom: 10px;
-    color: #e0e0e0;
+    color: #000000;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -84,7 +84,7 @@ h1 {
 #room {
     font-size: 3.5rem;
     font-weight: bold;
-    color: #e0e0e0;
+    color: #000000;
     position: relative;
     right: 0;
     margin-left: 20px; /* 调整位置使其保持在container中 */
@@ -92,7 +92,7 @@ h1 {
 
 #message {
     font-size: 1.5rem;
-    color: #16a3d1;
+    color: #134858;
     margin-bottom: 20px;
 }
 
@@ -103,7 +103,7 @@ h1 {
 
 .left-column, .right-column {
     width: 48%;
-    background-color: rgba(31, 31, 31, 0.2);
+    background-color: rgba(255, 255, 255, 0.2);
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     border-radius: 8px;
@@ -114,36 +114,36 @@ h1 {
     font-weight: bold;
     text-align: center;
     margin-bottom: 20px;
-    color: #7cc3fb;
+    color: #000000;
 }
 
 #current-subject, #exam-timing, #remaining-time, #status {
     font-size: 3rem;
     margin: 10px 0;
     text-align: left;
-    color: #e0e0e0;
+    color: #000000;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    border: 1px solid #333;
-    background-color: rgba(31, 31, 31, 0.5);
+    border: 1px solid #ccc;
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 th, td {
-    border: 1px solid #333;
+    border: 1px solid #ccc;
     padding: 8px; /* 缩短行高 */
     font-size: 2rem;
     text-align: center;
 }
 
 th {
-    background-color: #333;
-    color: #7cc3fb;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #134858;
     font-weight: bold;
-    border-bottom: 2px solid #2b71ad;
+    border-bottom: 2px solid #134858;
 }
 
 .exam-status-进行中 td {
@@ -163,7 +163,7 @@ th {
 }
 
 tr:hover {
-    background-color: #333;
+    background-color: #f0f0f0;
 }
 
 table {
@@ -172,7 +172,7 @@ table {
 }
 
 td {
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid #ccc;
 }
 
 td:first-child {
@@ -200,7 +200,7 @@ td:last-child {
 }
 
 #settings-modal-content {
-    background-color: #1f1f1f;
+    background-color: #ffffff;
     margin: 5% auto;
     padding: 20px;
     border: 1px solid #888;
@@ -223,8 +223,8 @@ td:last-child {
     box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background-color: #121212;
-    color: #e0e0e0;
+    background-color: #ffffff;
+    color: #000000;
 }
 
 #settings-modal-content button {
@@ -257,4 +257,90 @@ td:last-child {
 
 #close-settings-btn:hover {
     background-color: #c9302c;
+}
+
+body.dark-theme {
+    background-image: url('../background-dark.jpg');
+    color: #ffffff;
+}
+
+body.dark-theme .container {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+body.dark-theme .left-column, 
+body.dark-theme .right-column {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-theme #current-time {
+    color: #ffffff;
+}
+
+body.dark-theme #current-subject, 
+body.dark-theme #exam-timing, 
+body.dark-theme #remaining-time, 
+body.dark-theme #status {
+    color: #ffffff;
+}
+
+body.dark-theme h1, 
+body.dark-theme #room {
+    color: #ffffff;
+}
+
+body.dark-theme table {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-theme th, 
+body.dark-theme td {
+    color: rgba(0, 0, 0, 0.2);
+}
+
+body.dark-theme th {
+    background-color: rgba(0, 0, 0, 0.2);
+    color: #7cc3fb;
+    border-bottom: 2px solid #134858;
+}
+
+body.dark-theme #settings-modal-content {
+    background-color: #333;
+    border: 1px solid #666;
+}
+
+body.dark-theme #settings-modal-content label,
+body.dark-theme #settings-modal-content input[type="number"],
+body.dark-theme #settings-modal-content input[type="text"] {
+    color: #ffffff;
+    background-color: #444;
+    border: 1px solid #666;
+}
+
+body.dark-theme #settings-modal-content button {
+    background-color: #555;
+    color: #ffffff;
+    border: 1px solid #666;
+}
+
+body.dark-theme #settings-modal-content button:hover {
+    background-color: #666;
+}
+
+body.dark-theme #settings-btn,
+body.dark-theme #fullscreen-btn,
+body.dark-theme #theme-toggle-btn,
+body.dark-theme #save-settings-btn,
+body.dark-theme #close-settings-btn {
+    background-color: #444;
+    color: #ffffff;
+    border: 1px solid #666;
+}
+
+body.dark-theme #settings-btn:hover,
+body.dark-theme #fullscreen-btn:hover,
+body.dark-theme #theme-toggle-btn:hover,
+body.dark-theme #save-settings-btn:hover,
+body.dark-theme #close-settings-btn:hover {
+    background-color: #666;
 }

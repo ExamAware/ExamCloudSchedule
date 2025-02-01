@@ -24,6 +24,10 @@ document.addEventListener("DOMContentLoaded", () => {
     offsetTime = parseInt(offsetTime);
     roomElem.textContent = room;
 
+    let remainingTimeColor = "#3946AF";
+    let statusColor = "#225036";
+    let upcomingStatusColor = "#DBA014";
+
     function fetchData() {
         const urlParams = new URLSearchParams(window.location.search);
         const configId = urlParams.get('configId');
@@ -98,12 +102,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 remainingTimeElem.style.fontWeight = "bold";
             } else {
                 remainingTimeElem.textContent = `剩余时间: ${remainingTimeText}`;
-                remainingTimeElem.style.color = "#93b4f7";
+                remainingTimeElem.style.color = remainingTimeColor;
                 remainingTimeElem.style.fontWeight = "normal";
             }
 
             statusElem.textContent = "状态: 进行中";
-            statusElem.style.color = "#5ba838";
+            statusElem.style.color = statusColor;
         } else if (lastExam && now < new Date(lastExam.end).getTime() + 60000) {
             const timeSinceEnd = (now.getTime() - new Date(lastExam.end).getTime()) / 1000;
             currentSubjectElem.textContent = `上场科目: ${lastExam.name}`;
@@ -124,13 +128,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 remainingTimeElem.style.color = "orange";
                 remainingTimeElem.style.fontWeight = "bold";
                 statusElem.textContent = "状态: 即将开始";
-                statusElem.style.color = "#DBA014";
+                statusElem.style.color = upcomingStatusColor;
             } else {
                 currentSubjectElem.textContent = `下一场科目: ${nextExam.name}`;
                 remainingTimeElem.textContent = "";
                 statusElem.textContent = "状态: 未开始";
                 remainingTimeElem.style.fontWeight = "normal";
-                statusElem.style.color = "#EAEE5B";
+                statusElem.style.color = "#C6813C";
             }
 
             examTimingElem.textContent = `起止时间: ${formatTimeWithoutSeconds(new Date(nextExam.start).toLocaleTimeString('zh-CN', { hour12: false }))} - ${formatTimeWithoutSeconds(new Date(nextExam.end).toLocaleTimeString('zh-CN', { hour12: false }))}`;
@@ -224,6 +228,40 @@ document.addEventListener("DOMContentLoaded", () => {
             if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
         }
         return null;
+    }
+
+    document.getElementById('theme-toggle-btn').addEventListener('click', function() {
+        document.body.classList.toggle('dark-theme');
+        if (document.body.classList.contains('dark-theme')) {
+            remainingTimeColor = '#ADD8FB'; // 暗色主题下的颜色
+            statusColor = '#A2BB7A'; // 暗色主题下的颜色
+            upcomingStatusColor = '#DBA014'; // 暗色主题下的颜色
+        } else {
+            remainingTimeColor = '#3946AF'; // 亮色主题下的颜色
+            statusColor = '#225036'; // 亮色主题下的颜色
+            upcomingStatusColor = '#F26A3A'; // 亮色主题下的颜色
+        }
+        updateRemainingTimeColor();
+        updateStatusColor();
+    });
+
+    function updateRemainingTimeColor() {
+        const remainingTimeElement = document.getElementById('remaining-time');
+        const remainingTimeText = remainingTimeElement.textContent;
+        const remainingMinutes = parseInt(remainingTimeText);
+
+        if (remainingMinutes > 15) {
+            remainingTimeElement.style.color = remainingTimeColor;
+        }
+    }
+
+    function updateStatusColor() {
+        const statusElement = document.getElementById('status');
+        if (statusElement.textContent.includes('进行中')) {
+            statusElement.style.color = statusColor;
+        } else if (statusElement.textContent.includes('即将开始')) {
+            statusElement.style.color = upcomingStatusColor;
+        }
     }
 
     fetchData();
