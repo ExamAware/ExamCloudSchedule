@@ -98,3 +98,11 @@ ExamCloud 是一个用于管理和查看考试安排的系统。它包括以下�
 ## 许可证
 
 本项目采用 MIT 许可证。
+
+## CodeSpace 开发
+
+```bash
+sudo sed -i 's/Listen 80$//' /etc/apache2/ports.conf
+sudo sed -i 's/<VirtualHost \*:80>/ServerName 127.0.0.1\n<VirtualHost \*:8080>/' /etc/apache2/sites-enabled/000-default.conf
+apache2ctl start
+```
