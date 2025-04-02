@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Schedule</title>
+    <link rel="stylesheet" href="Styles/dark.css" id="theme-link">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-content" id="errorMessage"></div>
+    </div>
+    <button id="settings-btn">设置</button>
+    <button id="fullscreen-btn">全屏</button>
+    <div class="container">
+        <h1 id="examName">
+            考试安排
+            <span id="room"></span>
+        </h1>
+        <p id="message"></p>
+        <div class="content">
+            <div class="left-column">
+                <div class="clock-section">
+                    <div id="current-time"></div>
+                </div>
+                <div class="info-section">
+                    <div id="current-subject"></div>
+                    <div id="exam-timing"></div>
+                    <div id="remaining-time"></div>
+                    <div id="status"></div>
+                </div>
+            </div>
+            <div class="right-column">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>时间</th>
+                            <th>科目</th>
+                            <th>开始</th>
+                            <th>结束</th>
+                            <th>状态</th>
+                        </tr>
+                    </thead>
+                    <tbody id="exam-table-body">
+                        <!-- Dynamically filled by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- Settings Modal -->
+    <div id="settings-modal">
+        <div id="settings-modal-content" class="settings-panel dark-theme">
+            <h3>系统设置</h3>
+            <label for="offset-time">偏移时间（秒）:</label>
+            <input type="number" id="offset-time" name="offset-time" value="0">
+            <label for="room-input">考场号:</label>
+            <input type="text" id="room-input" name="room-input" value="">
+            <label for="zoom-input">页面缩放倍数:</label>
+            <input type="number" id="zoom-input" step="0.1" min="0.5" max="2">
+            <div class="theme-toggle-container">
+                <label for="theme-toggle">亮/暗色模式:</label>
+                <label class="switch">
+                    <input type="checkbox" id="theme-toggle">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="button-group">
+                <button id="save-settings-btn" class="control-btn">确定</button>
+                <button id="close-settings-btn" class="control-btn">关闭</button>
+            </div>
+        </div>
+    </div>
+    <script src="Scripts/utils.js"></script>
+    <script src="Scripts/settings.js"></script>
+    <script src="Scripts/examInfo.js"></script>
+    <script src="Scripts/main.js"></script>
+</body>
+</html>

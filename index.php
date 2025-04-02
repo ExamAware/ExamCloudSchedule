@@ -155,7 +155,7 @@ header('Content-Type: text/html; charset=utf-8');
 
     function enterSchedule() {
         const configId = document.getElementById('configId').value.trim();
-        window.location.href = `/ExamCloudSchedule/index.html?configId=${encodeURIComponent(configId)}`;
+        window.location.href = `/present/index.html?configId=${encodeURIComponent(configId)}`;
     }
 
     // JSON高亮显示
