@@ -1,5 +1,8 @@
 # ExamCloudSechdule
 
+> [!WARNING]
+> 要使用，请下载 Release。
+
 ExamCloudSechdule 是一个用于管理和查看考试安排的系统。它包括以下几个主要功能：
 
 1. **考试看板配置查询**：用户可以通过输入配置 ID 来获取考试安排的详细信息。
