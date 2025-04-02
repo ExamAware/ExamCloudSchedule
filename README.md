@@ -18,6 +18,17 @@ ExamCloudSechdule 是一个用于管理和查看考试安排的系统。它包�
 - `/includes`: 管理员认证目录。
 - `/configs`: 安排存放目录。
 
+## 界面截图
+
+![ee660e51df2f9984fb554b45253ca621](https://github.com/user-attachments/assets/6f61c6f6-a6ad-448f-9009-362e944b3dd3)
+
+![f08b4b040750be52a0539cac122e3ffd](https://github.com/user-attachments/assets/599cea9a-4f6b-4889-8183-9ebc925b9f68)
+
+![89cdcef605ac601cd2665d3d8c7bbdd3](https://github.com/user-attachments/assets/8f3b3bbd-f36b-4a3d-8e89-2f5b64914e9f)
+
+![ed35ada1596518c45d45028db75cd23e_720](https://github.com/user-attachments/assets/c919c877-d5e4-45e5-9d16-0468092179e4)
+
+
 ## 使用方法
 
 ### 考试看板配置查询
