@@ -24,109 +24,137 @@ uksort($configs, function($a, $b) {
 <html>
 <head>
     <title>配置管理后台</title>
+    <link rel="stylesheet" href="/assets/css/md3.css">
     <style>
         body { 
-            font-family: Arial, sans-serif; 
-            background-color: #f2f2f2; 
+            font-family: Roboto, sans-serif;
+            background: var(--md-surface);
             margin: 0; 
-            padding: 20px; 
+            padding: 24px; 
         }
+
         .header { 
             display: flex; 
             justify-content: space-between; 
             align-items: center; 
             margin-bottom: 20px; 
+            padding: 0 24px;
         }
-        .header h1 { 
-            margin: 0; 
+
+        .content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
         }
-        .add-btn-container {
-            margin-bottom: 20px;
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
         }
-        table { 
-            border-collapse: collapse; 
-            width: 100%; 
-            background-color: #fff; 
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
-            border-radius: 8px; 
-            overflow: hidden; 
+
+        .card {
+            background: var(--md-surface);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--md-elevation-1);
+            transition: box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
-        th, td { 
-            padding: 12px; 
-            text-align: left; 
-            border-bottom: 1px solid #ddd; 
+
+        .card:hover {
+            box-shadow: var(--md-elevation-2);
         }
-        th { 
-            background-color: #f5f5f5; 
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
         }
-        .actions a { 
-            margin-right: 10px; 
-            color: #007bff; 
-            text-decoration: none; 
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--md-on-surface);
+            margin: 0;
         }
-        .actions a:hover { 
-            text-decoration: underline; 
+
+        .card-meta {
+            color: var(--md-on-surface-variant);
+            font-size: 14px;
         }
-        .logout { 
-            color: #dc3545; 
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px solid var(--md-outline);
         }
-        .add-btn { 
-            background: #28a745; 
-            color: white; 
-            padding: 10px 15px; 
-            border-radius: 4px; 
-            text-decoration: none; 
+
+        .card-actions a {
+            text-decoration: none; /* 添加这一行 */
         }
-        .add-btn:hover { 
-            background: #218838; 
+
+        .add-card {
+            border: 2px dashed var(--md-outline);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-height: 200px;
+            text-decoration: none; /* 添加这一行 */
         }
-        .no-configs { 
-            text-align: center; 
-            padding: 20px; 
-            color: #888; 
+
+        .add-card:hover {
+            border-color: var(--md-primary);
+            background: var(--md-primary-container);
+        }
+
+        .add-icon {
+            font-size: 48px;
+            color: var(--md-primary);
         }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>考试配置管理 <small>当前用户：<?= $_SESSION['username'] ?></small></h1>
-        <a href="login.php?action=logout" class="logout">退出登录</a>
+        <a href="login.php?action=logout" class="md3-button">退出登录</a>
     </div>
 
-    <div class="add-btn-container">
-        <a href="edit.php" class="add-btn">新建配置</a>
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>配置ID</th>
-                <th>最后修改时间</th>
-                <th>文件大小</th>
-                <th>操作</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if(empty($configs)): ?>
-                <tr>
-                    <td colspan="4" class="no-configs">暂无配置文件</td>
-                </tr>
-            <?php else: ?>
+    <div class="content">
+        <div class="grid">
+            <a href="edit.php" class="card add-card">
+                <div class="add-icon">+</div>
+                <span class="card-title">新建配置</span>
+            </a>
+            <?php if(!empty($configs)): ?>
                 <?php foreach($configs as $config): ?>
-                <tr>
-                    <td><?= htmlspecialchars($config['id']) ?></td>
-                    <td><?= $config['mtime'] ?></td>
-                    <td><?= round($config['size']/1024, 2) ?> KB</td>
-                    <td class="actions">
-                        <a href="edit.php?id=<?= urlencode($config['id']) ?>">编辑</a>
-                        <a href="#" onclick="confirmDelete('<?= $config['id'] ?>')">删除</a>
-                        <a href="../get_config.php?id=<?= urlencode($config['id']) ?>" target="_blank">预览</a>
-                    </td>
-                </tr>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title"><?= htmlspecialchars($config['id']) ?></h3>
+                    </div>
+                    <div class="card-meta">
+                        最后修改：<?= $config['mtime'] ?><br>
+                        文件大小：<?= round($config['size']/1024, 2) ?> KB
+                    </div>
+                    <div class="card-actions">
+                        <a href="edit.php?id=<?= urlencode($config['id']) ?>" class="md3-button">编辑</a>
+                        <a href="../get_config.php?id=<?= urlencode($config['id']) ?>" class="md3-button" target="_blank">查看</a>
+                        <button class="md3-button" style="background:var(--md-error)" onclick="confirmDelete('<?= $config['id'] ?>')">删除</button>
+                    </div>
+                </div>
                 <?php endforeach; ?>
             <?php endif; ?>
-        </tbody>
-    </table>
+        </div>
+    </div>
 
     <script>
     function confirmDelete(id) {

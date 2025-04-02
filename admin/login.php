@@ -30,74 +30,73 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
     <title>登录</title>
+    <link rel="stylesheet" href="/assets/css/md3.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
+            background: var(--md-surface);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
         }
+        
         .login-container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            background: var(--md-surface);
+            padding: 32px;
+            border-radius: 28px;
+            box-shadow: var(--md-elevation-1);
+            width: 320px;
         }
+
+        .login-container form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .login-container .md3-text-field {
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 0;
+        }
+
+        .login-container .md3-button {
+            margin-top: 8px;
+        }
+
         .login-container h2 {
-            margin-top: 0;
+            color: var(--md-on-surface);
+            margin: 0 0 24px;
             text-align: center;
         }
-        .login-container div {
-            margin-bottom: 15px;
-        }
-        .login-container label {
-            display: block;
-            margin-bottom: 5px;
-        }
+
         .login-container input {
             width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
+            margin-bottom: 16px;
         }
-        .login-container button {
-            width: 100%;
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .login-container button:hover {
-            background-color: #45a049;
-        }
+
         .error {
-            color: red;
+            color: var(--md-error);
             text-align: center;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
+    <div class="login-container md3-card">
         <h2>登录</h2>
         <?php if (isset($error)): ?>
             <div class="error"><?= $error ?></div>
         <?php endif; ?>
         <form method="post">
-            <div>
-                <label>用户名:</label>
-                <input type="text" name="username" required>
-            </div>
-            <div>
-                <label>密码:</label>
-                <input type="password" name="password" required>
-            </div>
-            <button type="submit">登录</button>
+            <label class="md3-label">用户名:</label>
+            <input type="text" name="username" class="md3-text-field" required>
+            
+            <label class="md3-label">密码:</label>
+            <input type="password" name="password" class="md3-text-field" required>
+            
+            <button type="submit" class="md3-button">登录</button>
         </form>
     </div>
 </body>

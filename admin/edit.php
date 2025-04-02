@@ -3,168 +3,222 @@ require_once '../includes/auth.php';
 checkLogin();
 
 $id = $_GET['id'] ?? '';
-$config = ['examName' => '', 'message' => '', 'examInfos' => []];
+$config = ['examName' => '', 'message' => '', 'room' => '', 'examInfos' => []];
+
+// Debug: 输出POST数据
+error_log('POST data: ' . print_r($_POST, true));
 
 // 保存逻辑
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = preg_replace('/[^a-zA-Z0-9]/', '', $_POST['id']);
     
     $newConfig = [
-        'examName' => $_POST['examName'],
-        'message' => $_POST['message'],
-        'room' => $_POST['room'],
+        'examName' => $_POST['examName'] ?? '',
+        'message' => $_POST['message'] ?? '',
+        'room' => $_POST['room'] ?? '',
         'examInfos' => []
     ];
     
-    foreach ($_POST['subject'] as $index => $subject) {
-        $newConfig['examInfos'][] = [
-            'name' => $subject,
-            'start' => $_POST['start'][$index],
-            'end' => $_POST['end'][$index]
-        ];
+    // 验证并处理科目数据
+    if (isset($_POST['subject']) && is_array($_POST['subject'])) {
+        foreach ($_POST['subject'] as $index => $subject) {
+            if (!empty($subject) && isset($_POST['start'][$index]) && isset($_POST['end'][$index])) {
+                // 格式化时间为标准格式
+                $startTime = date('Y-m-d\TH:i:s', strtotime($_POST['start'][$index]));
+                $endTime = date('Y-m-d\TH:i:s', strtotime($_POST['end'][$index]));
+                
+                $newConfig['examInfos'][] = [
+                    'name' => $subject,
+                    'start' => $startTime,
+                    'end' => $endTime
+                ];
+            }
+        }
     }
     
-    file_put_contents("../configs/{$id}.json", json_encode($newConfig, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
-    header('Location: index.php');
-    exit;
+    // Debug: 输出配置数据
+    error_log('Config to save: ' . print_r($newConfig, true));
+    
+    // 保存配置
+    $jsonData = json_encode($newConfig, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
+    if ($jsonData === false) {
+        error_log('JSON encode error: ' . json_last_error_msg());
+    } else {
+        $saveResult = file_put_contents("../configs/{$id}.json", $jsonData);
+        if ($saveResult === false) {
+            error_log('File write failed for: ../configs/' . $id . '.json');
+        } else {
+            header('Location: index.php');
+            exit;
+        }
+    }
 }
 
 // 加载现有配置
 if (!empty($id) && file_exists("../configs/{$id}.json")) {
     $config = json_decode(file_get_contents("../configs/{$id}.json"), true);
+    if ($config === null) {
+        error_log('JSON decode error: ' . json_last_error_msg());
+        $config = ['examName' => '', 'message' => '', 'room' => '', 'examInfos' => []];
+    }
 }
 ?>
 <!DOCTYPE html>
 <html>
 <head>
     <title>编辑配置</title>
+    <link rel="stylesheet" href="/assets/css/md3.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
+            background: var(--md-surface);
             margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+            padding: 24px;
         }
+        
         .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 500px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .container h3 {
-            margin-top: 0;
+
+        .form-wrapper {
+            display: flex;
+            gap: 24px;
         }
-        .container div {
-            margin-bottom: 15px;
+
+        .form-basic {
+            width: 380px;
+            flex-shrink: 0;
+            height: fit-content;
+            background: var(--md-surface);
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: var(--md-elevation-1);
         }
-        .container label {
-            display: block;
-            margin-bottom: 5px;
-        }
-        .container input[type="text"],
-        .container input[type="datetime-local"] {
+
+        .form-basic .md3-text-field {
             width: 100%;
-            padding: 8px;
             box-sizing: border-box;
         }
-        .container button {
-            padding: 10px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+
+        .form-basic .form-group {
+            display: flex;
+            flex-direction: column;
         }
-        .container button:hover {
-            background-color: #45a049;
+
+        .form-basic .md3-label {
+            margin-bottom: 8px;
         }
+
+        .form-subjects {
+            flex-grow: 1;
+            background: var(--md-surface);
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: var(--md-elevation-1);
+            min-width: 0; /* 防止flex子项溢出 */
+        }
+
         .subject {
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            background: var(--md-surface-variant);
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 16px;
         }
-        .subject button {
-            background-color: #dc3545;
-            margin-top: 10px;
+
+        .form-group {
+            margin-bottom: 16px;
         }
-        .subject button:hover {
-            background-color: #c82333;
+
+        .form-actions {
+            margin-top: 24px;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        h3 {
+            margin-top: 0;
+            color: var(--md-on-surface);
         }
     </style>
+</head>
+<body>
+    <div class="container">
+        <form method="post" id="examForm" class="form-wrapper">
+            <div class="form-basic">
+                <h3>基本信息</h3>
+                <div class="form-group">
+                    <label class="md3-label">配置ID:</label>
+                    <input type="text" name="id" class="md3-text-field" value="<?= htmlspecialchars($id) ?>" required>
+                </div>
+                <div class="form-group">
+                    <label class="md3-label">考试名称:</label>
+                    <input type="text" name="examName" class="md3-text-field" value="<?= htmlspecialchars($config['examName']) ?>" required>
+                </div>
+                <div class="form-group">
+                    <label class="md3-label">考试提示语:</label>
+                    <input type="text" name="message" class="md3-text-field" value="<?= htmlspecialchars($config['message']) ?>">
+                </div>
+                <div class="form-group">
+                    <label class="md3-label">考场号:</label>
+                    <input type="text" name="room" class="md3-text-field" value="<?= htmlspecialchars($config['room'] ?? '') ?>" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="md3-button">保存配置</button>
+                </div>
+            </div>
+
+            <div class="form-subjects">
+                <h3>考试科目安排</h3>
+                <div id="subjects">
+                    <?php if (!empty($config['examInfos'])): ?>
+                        <?php foreach ($config['examInfos'] as $subject): ?>
+                        <div class="subject">
+                            <div class="form-group">
+                                <label class="md3-label">科目名称:</label>
+                                <input type="text" name="subject[]" class="md3-text-field" value="<?= htmlspecialchars($subject['name']) ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="md3-label">开始时间:</label>
+                                <input type="datetime-local" name="start[]" class="md3-text-field" value="<?= htmlspecialchars($subject['start']) ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="md3-label">结束时间:</label>
+                                <input type="datetime-local" name="end[]" class="md3-text-field" value="<?= htmlspecialchars($subject['end']) ?>" required>
+                            </div>
+                            <button type="button" class="md3-button delete-btn" onclick="this.parentElement.remove()">删除</button>
+                        </div>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="md3-button" onclick="addSubject()">添加科目</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    
     <script>
     function addSubject() {
         const container = document.getElementById('subjects');
-        const index = Date.now();
         const html = `
         <div class="subject">
-            <div>
-                <label>科目名称:</label>
-                <input type="text" name="subject[]" required>
+            <div class="form-group">
+                <label class="md3-label">科目名称:</label>
+                <input type="text" name="subject[]" class="md3-text-field" required>
             </div>
-            <div>
-                <label>开始时间:</label>
-                <input type="datetime-local" name="start[]" required>
+            <div class="form-group">
+                <label class="md3-label">开始时间:</label>
+                <input type="datetime-local" name="start[]" class="md3-text-field" required>
             </div>
-            <div>
-                <label>结束时间:</label>
-                <input type="datetime-local" name="end[]" required>
+            <div class="form-group">
+                <label class="md3-label">结束时间:</label>
+                <input type="datetime-local" name="end[]" class="md3-text-field" required>
             </div>
-            <button type="button" onclick="this.parentElement.remove()">删除</button>
+            <button type="button" class="md3-button delete-btn" onclick="this.parentElement.remove()">删除</button>
         </div>`;
         container.insertAdjacentHTML('beforeend', html);
     }
     </script>
-</head>
-<body>
-    <div class="container">
-        <form method="post">
-            <div>
-                <label>配置ID:</label>
-                <input type="text" name="id" value="<?= htmlspecialchars($id) ?>" required>
-            </div>
-            <div>
-                <label>考试名称:</label>
-                <input type="text" name="examName" value="<?= htmlspecialchars($config['examName']) ?>" required>
-            </div>
-            <div>
-                <label>考试提示语:</label>
-                <input type="text" name="message" value="<?= htmlspecialchars($config['message']) ?>">
-            </div>
-            <div>
-                <label>考场号:</label>
-                <input type="text" name="room" value="<?= htmlspecialchars($config['room'] ?? '') ?>" required>
-            </div>
-            
-            <h3>考试科目安排</h3>
-            <div id="subjects">
-                <?php foreach ($config['examInfos'] as $subject): ?>
-                <div class="subject">
-                    <div>
-                        <label>科目名称:</label>
-                        <input type="text" name="subject[]" value="<?= htmlspecialchars($subject['name']) ?>" required>
-                    </div>
-                    <div>
-                        <label>开始时间:</label>
-                        <input type="datetime-local" name="start[]" value="<?= str_replace(' ', 'T', $subject['start']) ?>" required>
-                    </div>
-                    <div>
-                        <label>结束时间:</label>
-                        <input type="datetime-local" name="end[]" value="<?= str_replace(' ', 'T', $subject['end']) ?>" required>
-                    </div>
-                    <button type="button" onclick="this.parentElement.remove()">删除</button>
-                </div>
-                <?php endforeach; ?>
-            </div>
-            <button type="button" onclick="addSubject()">添加科目</button>
-            <hr>
-            <button type="submit">保存配置</button>
-        </form>
-    </div>
 </body>
 </html>
