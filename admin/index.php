@@ -1,6 +1,7 @@
 <?php
 require_once '../includes/auth.php';
 checkLogin();
+$role = getUserRole($_SESSION['username']);
 
 // 获取所有配置文件列表
 $configs = [];
@@ -126,7 +127,12 @@ uksort($configs, function($a, $b) {
 <body>
     <div class="header">
         <h1>考试配置管理 <small>当前用户：<?= $_SESSION['username'] ?></small></h1>
-        <a href="login.php?action=logout" class="md3-button">退出登录</a>
+        <div>
+            <?php if ($role === 'admin'): ?>
+                <a href="users.php" class="md3-button">用户管理</a>
+            <?php endif; ?>
+            <a href="login.php?action=logout" class="md3-button">退出登录</a>
+        </div>
     </div>
 
     <div class="content">
