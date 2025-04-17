@@ -1,3 +1,25 @@
+#return-btn {
+    position: absolute; /* 绝对定位 */
+    top: 20px; /* 距离顶部 20px */
+    left: 20px; /* 距离左侧 20px */
+    padding: 12px 24px; /* 内边距 */
+    font-size: 1rem; /* 字体大小 */
+    cursor: pointer; /* 鼠标悬停时显示为手型 */
+    background-color: #E8DEF8; /* 按钮背景颜色 */
+    color: #000000; /* 按钮文字颜色 */
+    border: none; /* 按钮边框样式 */
+    border-radius: 20px; /* 按钮圆角大小 */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* 按钮阴影 */
+    transition: all 0.2s ease; /* 背景颜色和缩放的过渡效果 */
+    z-index: 1001; /* 按钮层级 */
+}
+
+#return-btn:hover {
+    background-color: #D0BCFF; /* 悬停时的背景颜色 */
+    transform: translateY(-1px); /* 悬停时向上移动 1px */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); /* 悬停时的阴影效果 */
+}
+
 body {
     font-family: 'Roboto', 'HarmonyOS Sans SC', sans-serif;
     margin: 0;
@@ -24,6 +46,22 @@ body::-webkit-scrollbar {
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     transition: all 0.2s ease;
     z-index: 1001;
+    display: flex;
+    align-items: center;
+}
+
+#fullscreen-btn::before {
+    content: "fullscreen";
+    font-family: 'Material Icons';
+    font-size: 20px;
+    margin-right: 4px;
+}
+
+#settings-btn::before {
+    content: "settings";
+    font-family: 'Material Icons';
+    font-size: 20px;
+    margin-right: 4px;
 }
 
 #fullscreen-btn {
@@ -31,7 +69,7 @@ body::-webkit-scrollbar {
 }
 
 #settings-btn {
-    right: 120px;
+    right: 140px;
 }
 
 #settings-btn:hover, #fullscreen-btn:hover {
@@ -68,7 +106,7 @@ h1 {
 }
 
 #message {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     color: #6750A4;
     margin-bottom: 24px;
 }
@@ -100,6 +138,10 @@ h1 {
     box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
+.info-section {
+    position: relative;
+}
+
 #current-time {
     font-size: 8rem;
     text-align: center;
@@ -113,6 +155,17 @@ h1 {
     margin: 16px 0;
     text-align: left;
     color: #1C1B1F;
+}
+
+#paper-info {
+    font-size: 3rem;
+    margin: 16px 0;
+    text-align: left;
+    color: #1C1B1F;
+}
+
+#exam-papers, #answer-sheets {
+    margin: 10px 0;
 }
 
 table {
@@ -143,8 +196,8 @@ tr:hover {
 }
 
 .exam-status-tag {
-    padding: 6px 12px;
-    border-radius: 8px;
+    padding: 2px 4px;
+    border-radius: 3px;
     font-size: 1.2rem;
     font-weight: 500;
 }
@@ -229,7 +282,7 @@ tr:hover {
 
 #settings-modal-content input[type="number"],
 #settings-modal-content input[type="text"] {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     padding: 12px 16px;
     margin: 8px 0 24px;
     width: 100%;
@@ -252,31 +305,26 @@ tr:hover {
     justify-content: flex-end;
     gap: 16px;
     margin-top: 32px;
+    position: relative;
+    background-color: #FFFFFF;
+    padding: 16px 0;
+    border-top: 1px solid #E8DEF8;
 }
 
 #save-settings-btn, #close-settings-btn {
-    padding: 12px 24px;
-    border-radius: 20px;
-    font-size: 16px;
-    font-weight: 500;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
-#save-settings-btn {
-    background-color: #6750A4;
-    color: #FFFFFF;
+#save-settings-btn::before {
+    content: "✓";
+    font-size: 18px;
 }
 
-#close-settings-btn {
-    background-color: #E8DEF8;
-    color: #1C1B1F;
-}
-
-#save-settings-btn:hover, #close-settings-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+#close-settings-btn::before {
+    content: "✕";
+    font-size: 18px;
 }
 
 .error-container {
@@ -403,4 +451,184 @@ input:checked + .slider:before {
     background-color: #D0BCFF;
     transform: translateY(-1px);
     box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.theme-toggle-container {
+    margin: 24px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+#theme-select {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 1.2rem;
+    background-color: #FFFFFF;
+    color: #1C1B1F;
+    border: 2px solid #E8DEF8;
+    border-radius: 12px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 16px;
+}
+
+#theme-select:hover {
+    background-color: #F7F2FA;
+    border-color: #D0BCFF;
+}
+
+#theme-select:focus {
+    outline: none;
+    border-color: #6750A4;
+    background-color: #F7F2FA;
+}
+
+#theme-select option {
+    background-color: #FFFFFF;
+    color: #1C1B1F;
+    padding: 12px;
+}
+
+#theme-select option:hover,
+#theme-select option:focus {
+    background-color: #F7F2FA;
+}
+
+.theme-toggle-container label {
+    font-size: 16px;
+    color: #1C1B1F;
+    margin-bottom: 8px;
+}
+
+.reminder-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease;
+    backdrop-filter: blur(8px);
+    z-index: 9999;
+}
+
+.reminder-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.reminder-content {
+    text-align: center;
+    animation: fadeIn 0.5s ease;
+}
+
+.reminder-title {
+    font-size: 5rem;
+    color: #FF3B30;
+    margin-bottom: 2rem;
+}
+
+.reminder-subtitle {
+    font-size: 3rem;
+    color: #FF9500;
+}
+
+.info-toggle-btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: #E8DEF8;
+    color: #1C1B1F;
+    border: none;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    z-index: 2;
+}
+
+.info-toggle-btn:hover {
+    background-color: #D0BCFF;
+    transform: translateY(-1px);
+}
+
+.info-toggle-btn .material-icons {
+    font-size: 24px;
+}
+
+.paper-count-container {
+    margin: 20px 0;
+}
+
+.paper-input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+    font-size: 2.5rem;
+}
+
+.count-control {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.count-control input {
+    width: 60px;
+    padding: 5px;
+    font-size: 2rem;
+    text-align: center;
+    background-color: #FFFFFF;
+    color: #1C1B1F;
+    border: 2px solid #E8DEF8;
+    border-radius: 8px;
+}
+
+.count-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+    background-color: #E8DEF8;
+    color: #1C1B1F;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.count-btn:hover {
+    background-color: #D0BCFF;
+    transform: translateY(-1px);
+}
+
+.count-btn .material-icons {
+    font-size: 20px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

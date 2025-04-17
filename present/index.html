@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Exam Schedule</title>
-    <link rel="stylesheet" href="Styles/dark.css" id="theme-link">
-	<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+    <link id="theme-link" rel="stylesheet" href="Styles/md3/dark.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
     <div class="error-container">
         <div class="error-content" id="errorMessage"></div>
     </div>
+    <button id="return-btn" onclick="window.location.href = '../'">返回</button>
     <button id="settings-btn">设置</button>
     <button id="fullscreen-btn">全屏</button>
     <div class="container">
@@ -25,7 +27,68 @@
                     <div id="current-time"></div>
                 </div>
                 <div class="info-section">
+                    <button id="info-toggle-btn" class="info-toggle-btn" title="切换显示模式">
+                        <span class="material-icons">swap_horiz</span>
+                    </button>
                     <div id="current-subject"></div>
+                    <div id="paper-info" style="display: none;">
+                        <div class="paper-count-container">
+                            <div class="paper-input-group">
+                                <label>试卷:</label>
+                                <div class="count-control">
+                                    <div class="count-btn-group">
+                                        <button class="count-btn" data-target="paper-count" data-action="decrease">
+                                            <span class="material-icons">remove</span>
+                                        </button>
+                                        <button class="count-btn" data-target="paper-count" data-action="increase">
+                                            <span class="material-icons">add</span>
+                                        </button>
+                                    </div>
+                                    <input type="number" id="paper-count" min="0" value="0">
+                                </div>
+                                <span>张</span>
+                                <div class="count-control">
+                                    <div class="count-btn-group">
+                                        <button class="count-btn" data-target="paper-pages" data-action="decrease">
+                                            <span class="material-icons">remove</span>
+                                        </button>
+                                        <button class="count-btn" data-target="paper-pages" data-action="increase">
+                                            <span class="material-icons">add</span>
+                                        </button>
+                                    </div>
+                                    <input type="number" id="paper-pages" min="0" value="0">
+                                </div>
+                                <span>页</span>
+                            </div>
+                            <div class="paper-input-group">
+                                <label>答题卡:</label>
+                                <div class="count-control">
+                                    <div class="count-btn-group">
+                                        <button class="count-btn" data-target="sheet-count" data-action="decrease">
+                                            <span class="material-icons">remove</span>
+                                        </button>
+                                        <button class="count-btn" data-target="sheet-count" data-action="increase">
+                                            <span class="material-icons">add</span>
+                                        </button>
+                                    </div>
+                                    <input type="number" id="sheet-count" min="0" value="0">
+                                </div>
+                                <span>张</span>
+                                <div class="count-control">
+                                    <div class="count-btn-group">
+                                        <button class="count-btn" data-target="sheet-pages" data-action="decrease">
+                                            <span class="material-icons">remove</span>
+                                        </button>
+                                        <button class="count-btn" data-target="sheet-pages" data-action="increase">
+                                            <span class="material-icons">add</span>
+                                        </button>
+                                    </div>
+                                    <input type="number" id="sheet-pages" min="0" value="0">
+                                </div>
+                                <span>页</span>
+                            </div>
+                        </div>
+                    </div>
                     <div id="exam-timing"></div>
                     <div id="remaining-time"></div>
                     <div id="status"></div>
@@ -49,6 +112,12 @@
             </div>
         </div>
     </div>
+    <div id="reminder-overlay" class="reminder-overlay">
+        <div class="reminder-content">
+            <h1 class="reminder-title">距离考试结束还有 15 分钟</h1>
+            <h2 class="reminder-subtitle">注意掌握时间</h2>
+        </div>
+    </div>
     <!-- Settings Modal -->
     <div id="settings-modal">
         <div id="settings-modal-content" class="settings-panel dark-theme">
@@ -59,10 +128,25 @@
             <input type="text" id="room-input" name="room-input" value="">
             <label for="zoom-input">页面缩放倍数:</label>
             <input type="number" id="zoom-input" step="0.1" min="0.5" max="2">
+            <div class="config-file-container">
+                <label for="config-file">配置文件:</label>
+                <input type="file" id="config-file" accept=".json">
+                <div class="file-hint">支持.json格式文件</div>
+                <button id="clear-config-btn" class="config-control-btn">清除本地配置</button>
+            </div>
             <div class="theme-toggle-container">
+                <label for="theme-select">主题:</label>
+                <select id="theme-select">
+                    <!-- 动态填充主题选项 -->
+                </select>
                 <label for="theme-toggle">亮/暗色模式:</label>
                 <label class="switch">
                     <input type="checkbox" id="theme-toggle">
+                    <span class="slider round"></span>
+                </label>
+                <label for="auto-toggle">自动切换显示:</label>
+                <label class="switch">
+                    <input type="checkbox" id="auto-toggle">
                     <span class="slider round"></span>
                 </label>
             </div>
