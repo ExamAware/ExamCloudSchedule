@@ -81,9 +81,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             text-align: center;
             margin-bottom: 16px;
         }
+
+        .back-button {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            text-decoration: none;
+            padding: 8px 16px;
+            background: var(--md-primary);
+            color: var(--md-on-primary);
+            border-radius: 4px;
+            box-shadow: var(--md-elevation-1);
+            font-size: 14px;
+        }
+
+        .back-button:hover {
+            background: var(--md-primary-hover);
+        }
     </style>
 </head>
 <body>
+    <a href="../" class="back-button md3-button">返回</a>
     <div class="login-container md3-card">
         <h2>登录</h2>
         <?php if (isset($error)): ?>
